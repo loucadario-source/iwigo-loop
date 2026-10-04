@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { db } from "@/lib/supabase";
-import { reviewAction, markPublishedManually } from "@/app/actions";
+import { reviewAction, markPublishedManually, publishToSocialsAction } from "@/app/actions";
 import { toSlides } from "@/agents/visual-renderer";
 import { AGENCIES } from "@/agents/local-context";
 import { CopyButton } from "@/components/CopyButton";
@@ -127,9 +127,18 @@ export default async function Review({ searchParams }: { searchParams: { tab?: s
               <div className="space-y-2">
                 <pre className="whitespace-pre-wrap rounded-lg bg-slate-50 p-3 text-sm">{fullText}</pre>
                 {c.status === "approved" && (
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     <CopyButton text={fullText} />
-                    <form action={markPublishedManually}><input type="hidden" name="id" value={c.id} /><button className="btn-primary">📤 Marquer comme publié</button></form>
+                    <form action={publishToSocialsAction}>
+                      <input type="hidden" name="id" value={c.id} />
+                      <button className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-pink-600 to-purple-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:from-pink-700 hover:to-purple-700">
+                        🚀 Publier sur Facebook & Instagram (Option A)
+                      </button>
+                    </form>
+                    <form action={markPublishedManually}>
+                      <input type="hidden" name="id" value={c.id} />
+                      <button className="btn-ghost text-xs">Marquer comme publié manuellement</button>
+                    </form>
                   </div>
                 )}
               </div>

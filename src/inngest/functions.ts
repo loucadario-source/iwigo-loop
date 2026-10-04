@@ -33,8 +33,8 @@ export const brandRefresh = inngest.createFunction(
 /* ───────────── 2. BOUCLE : Hunter → Creator → (Renderer + HITL par contenu) ───────────── */
 export const loopCron = inngest.createFunction(
   { id: "loop-cron" },
-  { cron: process.env.LOOP_CRON || "0 6 * * *" },
-  async ({ step }) => step.sendEvent("tick", { name: "loop/tick", data: { reason: "cron" } }),
+  { cron: process.env.LOOP_CRON || "0 9 * * 0" }, // Chaque dimanche à 09h00
+  async ({ step }) => step.sendEvent("tick", { name: "loop/tick", data: { reason: "cron_sunday" } }),
 );
 
 export const loopTick = inngest.createFunction(

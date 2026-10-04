@@ -7,10 +7,10 @@ export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const brand = await getActiveBrand();
-  const [{ data: runs }, { count: pending }, { count: newLeads }] = await Promise.all([
+  const [{ data: runs }, { count: pending }, { count: approved }] = await Promise.all([
     db().from("agent_runs").select("*").order("started_at", { ascending: false }).limit(20),
     db().from("contents").select("id", { count: "exact", head: true }).eq("status", "pending_review"),
-    db().from("leads").select("id", { count: "exact", head: true }).eq("stage", "nouveau"),
+    db().from("contents").select("id", { count: "exact", head: true }).eq("status", "approved"),
   ]);
   const swatches = [brand.palette.ecf.primary, brand.palette.ecf.secondary, brand.palette.ecf.light, brand.palette.iwigo.primary, brand.palette.iwigo.accent, brand.palette.neutral.dark];
 
@@ -18,7 +18,7 @@ export default async function Home() {
     <div className="space-y-6">
       <div className="grid gap-4 md:grid-cols-3">
         <div className="card p-5"><div className="text-sm text-ink-mid">En attente de validation</div><div className="font-heading text-4xl font-extrabold text-ecf-primary">{pending ?? 0}</div></div>
-        <div className="card p-5"><div className="text-sm text-ink-mid">Nouveaux leads</div><div className="font-heading text-4xl font-extrabold text-ecf-secondary">{newLeads ?? 0}</div></div>
+        <div className="card p-5"><div className="text-sm text-ink-mid">Prêts à publier (validés)</div><div className="font-heading text-4xl font-extrabold text-green-600">{approved ?? 0}</div></div>
         <div className="card flex flex-col gap-2 p-5">
           <form action={trigger}><input type="hidden" name="kind" value="bootstrap" /><button className="btn-ghost w-full">🧭 Relancer Brand Scout + Contexte Local</button></form>
           <form action={trigger}><input type="hidden" name="kind" value="tick" /><button className="btn-primary w-full">🔁 Lancer un cycle de la boucle</button></form>

@@ -16,7 +16,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <span className="font-heading text-lg font-extrabold">IWIGO <span className="text-ecf-secondary">×</span> ECF · Loop</span>
             <Link href="/" className="opacity-90 hover:opacity-100">Agents</Link>
             <Link href="/review" className="opacity-90 hover:opacity-100">Validation</Link>
-            <Link href="/leads" className="opacity-90 hover:opacity-100">Leads</Link>
             <Link href="/trends" className="opacity-90 hover:opacity-100">Veille</Link>
           </nav>
         </header>

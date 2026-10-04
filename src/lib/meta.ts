@@ -5,7 +5,9 @@ import { toSlides } from "@/agents/visual-renderer";
 
 const GRAPH = "https://graph.facebook.com/v21.0";
 
-export const publishEnabled = () => process.env.META_PUBLISH_ENABLED === "true" && !!process.env.META_PAGE_TOKEN;
+export const publishEnabled = () =>
+  Boolean(process.env.META_WEBHOOK_URL) ||
+  (process.env.META_PUBLISH_ENABLED === "true" && !!process.env.META_PAGE_TOKEN);
 
 export function verifySignature(rawBody: string, header: string | null): boolean {
   const secret = process.env.META_APP_SECRET;
@@ -27,17 +29,53 @@ export const getLeadgen = (id: string) => g(id, { fields: "field_data,created_ti
 export const getProfileName = (psid: string) => g(psid, { fields: "name" }, "GET").then((j) => j.name as string).catch(() => null);
 
 /**
- * Publication directe (activée après App Review via META_PUBLISH_ENABLED=true).
+ * Publication (Option A via Webhook Make.com/n8n, ou Option B directe Meta Graph API).
  * Garde-fou : refuse tout contenu non approuvé.
  */
 export async function publishContent(contentId: string) {
   const { data: c } = await db().from("contents").select("*").eq("id", contentId).single<ContentRow>();
-  if (!c || c.status !== "approved" || !c.approved_by) throw new Error("Refus : contenu non approuvé");
-  if (c.format === "reel_script") return { skipped: "reel à tourner manuellement" };
+  if (!c || c.status !== "approved") throw new Error("Refus : contenu non approuvé");
 
   const base = process.env.APP_URL!;
   const urls = toSlides(c).map((_, i) => `${base}/api/render/${c.id}/${i}`);
   const caption = `${c.caption ?? ""}\n\n${c.hashtags.join(" ")}`;
+
+  // OPTION A : Webhook Make.com / n8n / Zapier
+  if (process.env.META_WEBHOOK_URL) {
+    const payload = {
+      event: "content.publish",
+      content_id: c.id,
+      title: c.title,
+      format: c.format,
+      pillar: c.pillar,
+      agency_slug: c.agency_slug,
+      caption: c.caption,
+      hashtags: c.hashtags,
+      full_text: caption,
+      media_urls: urls,
+      body: c.body,
+      cta: c.cta,
+      sources: c.sources,
+      published_at: new Date().toISOString(),
+    };
+
+    const res = await fetch(process.env.META_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      throw new Error(`Webhook publication failed: HTTP ${res.status} ${res.statusText}`);
+    }
+
+    const ids = { webhook: "sent_to_make", timestamp: new Date().toISOString() };
+    await db().from("contents").update({ status: "published", published_at: new Date().toISOString(), meta_post_ids: ids }).eq("id", c.id);
+    return ids;
+  }
+
+  // OPTION B : Meta Graph API Directe
+  if (c.format === "reel_script") return { skipped: "reel à tourner manuellement ou via VEO" };
   const ig = process.env.META_IG_USER_ID!;
   const ids: Record<string, string> = {};
 

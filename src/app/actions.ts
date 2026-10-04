@@ -40,6 +40,16 @@ export async function markPublishedManually(form: FormData) {
   revalidatePath("/review");
 }
 
+export async function publishToSocialsAction(form: FormData) {
+  assertAdmin();
+  const id = String(form.get("id"));
+  const { publishContent } = await import("@/lib/meta");
+  await publishContent(id);
+  revalidatePath("/review");
+  revalidatePath("/");
+}
+
+
 export async function moveLead(id: string, stage: "nouveau" | "contacte" | "inscrit" | "perdu") {
   assertAdmin();
   const extra = stage === "contacte" ? { contacted_at: new Date().toISOString() } : stage === "inscrit" ? { enrolled_at: new Date().toISOString() } : {};
