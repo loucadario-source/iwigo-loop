@@ -1,6 +1,9 @@
 /**
  * EXPERT EN GÉNÉRATION DE PROMPTS VIDÉO GOOGLE VEO 3.1 & FLOW
  * Spécialisé dans l'écosystème officiel des auto-écoles françaises (ECF / REMC / Permis B).
+ * 
+ * RÈGLE D'OR : RENDU DU PREMIER JET ABSOLUMENT PREMIUM ("ONE-SHOT EXCELLENCE")
+ * Élimination radicale de toutes les causes d'artefacts, de bégaiements ou d'hallucinations textuelles.
  */
 
 export interface VideoExpertContext {
@@ -12,56 +15,57 @@ export interface VideoExpertContext {
 }
 
 /**
- * Directives absolues pour l'accent et la voix :
- * Strictement accent français de France métropolitaine (Île-de-France / Parisien standard).
- * Interdiction stricte d'accent québécois, belge, suisse ou étranger.
+ * 1. VERROUILLAGE VOCAL ET ACCENT MÉTROPOLITAIN STRICT
  */
-export const FRENCH_VOICEOVER_DIRECTIVES = `STRICT ACCENT & VOICE REQUIREMENTS:
-- Native standard mainland French accent only (French from France / Île-de-France Parisian standard).
-- STRICT BAN: Absolutely no Canadian, Québécois, Belgian, Swiss, or foreign regional accents.
-- Voice tone: Warm, charismatic, clear, articulate, dynamic and reassuring French certified driving instructor (enseignant de la conduite ECSR), male or female aged 28-35.
-- Pronunciation: Perfect modern metropolitan French diction with natural contemporary phrasing, confident and pedagogic.`;
+export const FRENCH_VOICEOVER_DIRECTIVES = `VOICEOVER & PHONETICS (ZERO-DEFECT POLICY):
+- ACCENT: Native standard mainland French only (Français de France métropolitaine, standard parisien neutre).
+- STRICT FORBIDDEN LIST: Absolutely NO Canadian, Québécois, Belgian, Swiss, African, or foreign regional accent.
+- SPEAKER: Confident, dynamic, charismatic certified French driving instructor (Titre Pro ECSR), 28-32 years old, natural pedagogic warmth, friendly modern Parisian diction.
+- DICTION LOCK: Crisp, modern conversational French. Exactly one punchy, impactful pedagogical tip. Zero repetition, zero stutter, perfect fluid cadence.`;
 
 /**
- * Détails authentiques obligatoires de l'univers auto-école français :
+ * 2. ENVIRONNEMENT AUTO-ÉCOLE FRANÇAIS & DÉTAILS CONFORMES (REMC)
  */
-export const FRENCH_DRIVING_SCHOOL_ENVIRONMENT = `AUTHENTIC FRENCH DRIVING SCHOOL DETAILS (ECF & PERMIS B STANDARDS):
-1. THE VEHICLE (Double-commande conforme Code de la Route R.317-1):
-   - Dual-control modern compact hatchback (Peugeot 208 II or Renault Clio V).
-   - Co-driver/Instructor side: Secondary dual pedals clearly visible in the passenger footwell (pédalier double commande d'origine).
-   - Additional dual rearview mirrors: Secondary panoramic interior rearview mirror clipped for instructor eye-contact ("rétroviseur intérieur additionnel de surveillance"), plus exterior double-convex blind spot mirrors on side mirrors ("rétroviseurs extérieurs à double lentille").
-   - Clean professional cockpit: Hands at 9h15 position on the steering wheel, instructor holding a sleek digital learning tablet on lap.
-   - Solid clean polo shirt for instructor (navy blue or crisp white, no warped text or messy AI logos).
-
-2. PEDAGOGIC ACTIONS & ROAD SAFETY (REMC - Référentiel Éducation Mobilité Citoyenne):
-   - Realistic learning driver body language: Focused gaze, head turning at 90 degrees for direct blind-spot shoulder check ("contrôle direct angle mort par-dessus l'épaule") before any maneuver.
-   - Dutch reach ("réflexe hollandais"): Opening driver door with opposite right hand to naturally check cyclists in the rear.
-   - Left stalk turn signal click with audible synchronized indicator clicks.
-
-3. AUTHENTIC FRENCH ROAD INFRASTRUCTURE:
-   - French CEREMA street design: Clean white road markings ("bandes blanches réglementaires", zébras, passages piétons), French curb layout, speed bumps ("dos d'âne").
-   - Official French road signs (panneaux de danger triangulaires, priorité à droite, giratoire).
-   - Surrounding authentic French suburban ambiance (pavillons franciliens, Seine-et-Marne / Île-de-France setting).
-
-4. CINEMATIC ANTI-HALLUCINATION CAMERA WORK:
-   - Shallow depth of field (f/1.8 to f/2.2 anamorphic lens, soft creamy urban bokeh): distant background buildings and walls are naturally soft-focused to prevent messy AI text hallucinations.
-   - Clean professional lighting: Warm golden daylight, crisp natural car interior reflection, premium commercial TV-spot aesthetics.`;
+export const FRENCH_DRIVING_SCHOOL_ENVIRONMENT = `AUTHENTIC FRENCH AUTO-ECOLE ENVIRONMENT (CODE DE LA ROUTE & REMC STANDARDS):
+- VEHICLE: Genuine modern French dual-control compact car (Peugeot 208 II). Visible secondary instructor pedal-box under passenger dashboard, secondary panoramic surveillance interior mirror clipped above the main rearview mirror, dual-lens exterior wing mirrors.
+- COCKPIT: Hands precisely at the 9h15 position on the compact flat-top steering wheel. Clean fabric interior, securely buckled seatbelts.
+- ACTORS & WARDROBE:
+  * French instructor wearing a clean, solid navy blue polo shirt with ZERO text, ZERO logos, and ZERO distorted AI letters.
+  * Young 18-year-old French student driver, focused, smiling, performing an authentic 90-degree head-turn shoulder check (contrôle direct d'angle mort).
+- PEDAGOGIC ACTION: Demonstrating one precise, high-value driving rule (e.g., Dutch reach portière check, roundabout priority, or mirror check).`;
 
 /**
- * Génère ou booste un prompt vidéo VEO 3.1 ultra-réaliste et conforme.
+ * 3. CAMÉRA CINÉMATOGRAPHIQUE & TECHNIQUE ANTI-HALLUCINATION
+ */
+export const CINEMATIC_ANTI_HALLUCINATION_RULES = `CINEMATIC CAMERAWORK & ANTI-HALLUCINATION PROTOCOL:
+- CAMERA MOVEMENT: Single unbroken continuous tracking shot (smooth slow gimbal push-in from medium shot to crisp medium close-up). NO jump cuts, NO morphing transitions.
+- LENS & DEPTH OF FIELD: 50mm portrait prime lens at f/1.8. Shallow depth of field creates a rich, creamy urban background bokeh, naturally eliminating distant signs and preventing any gibberish text hallucinations on buildings.
+- LIGHTING: Soft, high-end commercial daylight (golden hour morning sun), realistic windshield reflections, Arri Alexa Mini LF commercial aesthetic, authentic 4K textures.
+- AUDIO ATMOSPHERE: Synchronized muffled 3-cylinder engine rumble, crisp mechanical click of the Peugeot turn signal stalk, subtle street ambiance, and pristine studio-grade French voiceover.`;
+
+/**
+ * Générateur de prompt VEO 3.1 "One-Shot Premium"
  */
 export function boostVeoPrompt(rawPrompt: string, ctx?: VideoExpertContext): string {
   const city = ctx?.agencyCity || "Île-de-France";
-  const hook = ctx?.hookText ? `Opening action & hook: "${ctx.hookText}". ` : "";
-  const voice = ctx?.voiceoverText ? `Voiceover spoken dialogue in perfect French: "${ctx.voiceoverText}". ` : "";
-  const beats = ctx?.beatsSummary ? `Sequence: ${ctx.beatsSummary}. ` : "";
+  
+  // Nettoyage et sécurisation de la réplique vocale pour éviter les bégaiements (max 15-20 mots)
+  let cleanVoiceover = ctx?.voiceoverText || "Ce geste simple t'évite l'élimination directe le jour du permis !";
+  cleanVoiceover = cleanVoiceover.replace(/["\n\r]/g, " ").trim();
+  // Limiter la longueur pour garantir une diction parfaite sans bouclage
+  if (cleanVoiceover.length > 120) {
+    cleanVoiceover = cleanVoiceover.slice(0, 115) + "...";
+  }
+
+  const hook = ctx?.hookText ? `Pedagogical topic: "${ctx.hookText}". ` : "";
 
   return (
-    `Cinematic vertical 9:16 high-end commercial video for official French certified driving school ECF IWIGO (${city}, France). ` +
-    `${hook}${beats}` +
+    `Vertical 9:16 high-end cinematic commercial video for official French certified driving school IWIGO ECF in ${city}, France. ` +
+    `${hook}` +
     `${FRENCH_DRIVING_SCHOOL_ENVIRONMENT} ` +
+    `${CINEMATIC_ANTI_HALLUCINATION_RULES} ` +
     `${FRENCH_VOICEOVER_DIRECTIVES} ` +
-    `${voice}` +
-    `Sound design: Immersive native car interior acoustics, gentle engine hum, synchronized crisp indicator click-clack, and crystal-clear studio-grade French voiceover.`
+    `Exact spoken French line: "${cleanVoiceover}". ` +
+    `Style: Premium national television commercial, 4K resolution, photorealistic, broadcast-grade.`
   );
 }

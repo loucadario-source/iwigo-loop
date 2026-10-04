@@ -23,6 +23,36 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "GEMINI_API_KEY non configurée" }, { status: 500 });
     }
 
+    // VERROU STRICT : 1 VIDÉO PAR SEMAINE MAXIMUM
+    const now = new Date();
+    const day = now.getDay();
+    const diff = now.getDate() - day + (day === 0 ? -6 : 1);
+    const monday = new Date(now.setDate(diff));
+    monday.setHours(0, 0, 0, 0);
+
+    const { data: allContents } = await db()
+      .from("contents")
+      .select("id,created_at,body")
+      .not("body->video_url", "is", null);
+
+    const generatedThisWeek = (allContents ?? []).filter((item) => {
+      const bItem = item.body as { video_url?: string; video_generated_at?: string };
+      if (!bItem?.video_url) return false;
+      const genDate = bItem.video_generated_at || item.created_at;
+      return genDate >= monday.toISOString();
+    });
+
+    const alreadyHasVideoOnThis = Boolean((content.body as { video_url?: string })?.video_url);
+    if (generatedThisWeek.length >= 1 && !alreadyHasVideoOnThis) {
+      return NextResponse.json(
+        {
+          error: "Quota hebdomadaire atteint (1 vidéo / semaine). Ce verrou garantit l'équilibre éditorial et la rentabilité du système. Prochaine vidéo disponible dès lundi.",
+          quotaReached: true,
+        },
+        { status: 429 }
+      );
+    }
+
     const b = content.body as {
       hook?: { on_screen_text?: string; voiceover?: string };
       beats?: Array<{ shot?: string; voiceover?: string }>;
