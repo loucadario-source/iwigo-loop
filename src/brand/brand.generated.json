@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "generated_by": "agent:brand_scout",
+  "generated_at": "2026-10-04T19:02:06.007Z",
+  "palette": {
+    "ecf": {
+      "primary": "#003399",
+      "secondary": "#E30613",
+      "light": "#EDF3FB"
+    },
+    "iwigo": {
+      "primary": "#E30613",
+      "accent": "#569FF7"
+    },
+    "neutral": {
+      "dark": "#111827",
+      "mid": "#6B7280",
+      "light": "#E5E7EB",
+      "white": "#FFFFFF"
+    }
+  },
+  "fonts": {
+    "heading": "Montserrat",
+    "body": "Inter"
+  },
+  "logos": {
+    "ecf": "https://www.ecf.asso.fr/storage/file_manager_files/2024/07/logo-ecf.png",
+    "iwigo": null
+  },
+  "tone": {
+    "keywords": [
+      "Institutionnel",
+      "Pédagogique",
+      "Proximité",
+      "Sérénité",
+      "Dynamisme"
+    ],
+    "signature": "IWIGO — Auto-école ECF"
+  },
+  "sources": [
+    "https://www.ecf.asso.fr"
+  ]
+}

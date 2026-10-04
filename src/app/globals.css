@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body { @apply bg-ink-light text-ink-dark font-body; }
+.card { @apply bg-white rounded-xl border border-slate-200 shadow-sm; }
+.btn { @apply inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition disabled:opacity-50; }
+.btn-primary { @apply btn bg-ecf-primary text-white hover:opacity-90; }
+.btn-danger { @apply btn bg-ecf-secondary text-white hover:opacity-90; }
+.btn-ghost { @apply btn border border-slate-300 bg-white hover:bg-slate-50; }
+.badge { @apply inline-block rounded-full px-2 py-0.5 text-xs font-semibold; }
