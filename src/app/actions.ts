@@ -53,3 +53,17 @@ export async function trigger(form: FormData) {
   await inngest.send({ name: kind === "tick" ? "loop/tick" : "system/bootstrap", data: { reason: "dashboard" } });
   revalidatePath("/");
 }
+
+export async function generatePostNowAction() {
+  assertAdmin();
+  const { runContentCreator } = await import("@/agents/content-creator");
+  try {
+    await runContentCreator(1);
+  } catch (err) {
+    console.error("Direct runContentCreator failed, triggering via Inngest:", err);
+    await inngest.send({ name: "loop/tick", data: { reason: "manual_click" } });
+  }
+  revalidatePath("/review");
+  revalidatePath("/");
+}
+

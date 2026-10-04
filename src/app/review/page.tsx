@@ -6,6 +6,7 @@ import { toSlides } from "@/agents/visual-renderer";
 import { AGENCIES } from "@/agents/local-context";
 import { CopyButton } from "@/components/CopyButton";
 import { SlidePreviewSelector } from "@/components/SlidePreviewSelector";
+import { GenerateButton } from "@/components/GenerateButton";
 import type { ContentRow } from "@/agents/content-creator";
 
 export const dynamic = "force-dynamic";
@@ -15,6 +16,7 @@ const TABS = [
   { key: "approved", label: "Prêts à publier (export)", statuses: ["approved"] },
   { key: "history", label: "Historique", statuses: ["published", "rejected", "changes_requested", "failed"] },
 ] as const;
+
 
 function Script({ c }: { c: ContentRow }) {
   if (c.format !== "reel_script") return null;
@@ -62,10 +64,14 @@ export default async function Review({ searchParams }: { searchParams: { tab?: s
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-2">
-        {TABS.map((t) => <Link key={t.key} href={`/review?tab=${t.key}`} className={t.key === tab.key && !searchParams.id ? "btn-primary" : "btn-ghost"}>{t.label}</Link>)}
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex gap-2">
+          {TABS.map((t) => <Link key={t.key} href={`/review?tab=${t.key}`} className={t.key === tab.key && !searchParams.id ? "btn-primary" : "btn-ghost"}>{t.label}</Link>)}
+        </div>
+        <GenerateButton />
       </div>
-      {!items.length && <p className="text-ink-mid">Rien ici pour l&apos;instant — la boucle tourne 🔁</p>}
+      {!items.length && <p className="text-ink-mid">Rien ici pour l&apos;instant — cliquez sur « Générer un post IA maintenant » pour lancer la création ! 🚀</p>}
+
 
       {items.map((c) => {
         const slides = toSlides(c);
