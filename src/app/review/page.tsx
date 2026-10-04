@@ -7,6 +7,7 @@ import { AGENCIES } from "@/agents/local-context";
 import { CopyButton } from "@/components/CopyButton";
 import { SlidePreviewSelector } from "@/components/SlidePreviewSelector";
 import { GenerateButton } from "@/components/GenerateButton";
+import { VideoGenerator } from "@/components/VideoGenerator";
 import type { ContentRow } from "@/agents/content-creator";
 
 export const dynamic = "force-dynamic";
@@ -27,6 +28,7 @@ function Script({ c }: { c: ContentRow }) {
     cta: string;
     audio_suggestion?: string;
     veo_video_prompt?: string;
+    video_url?: string;
   };
 
   const beatsSummary = b.beats.map((bt) => bt.shot).join(", ");
@@ -47,10 +49,17 @@ function Script({ c }: { c: ContentRow }) {
         <p><b>Hook (0-3s)</b> : « {b.hook.on_screen_text} » — 🗣 {b.hook.voiceover}</p>
         <ol className="ml-4 list-decimal space-y-1">{b.beats.map((x, i) => <li key={i}><b>{x.t}</b> [{x.shot}] « {x.on_screen_text} » — {x.voiceover}</li>)}</ol>
         <p><b>CTA</b> : {b.cta}</p>
-        <div className="mt-3 rounded border border-purple-200 bg-purple-50 p-3">
-          <p className="text-xs font-bold text-purple-900 mb-1">🎥 Prompt Vidéo IA pour Flow / VEO 3.1 :</p>
-          <code className="text-xs text-purple-950 block select-all bg-white p-2 rounded border border-purple-150 font-mono">{veoPrompt}</code>
-        </div>
+
+        <VideoGenerator contentId={c.id} initialVideoUrl={b.video_url} prompt={veoPrompt} />
+
+        <details className="mt-2 text-xs text-purple-900">
+          <summary className="cursor-pointer font-medium hover:underline">
+            Voir le prompt textuel brut VEO 3.1
+          </summary>
+          <div className="mt-2 rounded border border-purple-200 bg-purple-50 p-2.5">
+            <code className="text-xs text-purple-950 block select-all bg-white p-2 rounded border border-purple-150 font-mono">{veoPrompt}</code>
+          </div>
+        </details>
       </div>
     );
 }
