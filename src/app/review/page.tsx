@@ -8,6 +8,7 @@ import { CopyButton } from "@/components/CopyButton";
 import { SlidePreviewSelector } from "@/components/SlidePreviewSelector";
 import { GenerateButton } from "@/components/GenerateButton";
 import { VideoGenerator } from "@/components/VideoGenerator";
+import { boostVeoPrompt } from "@/prompts/veo-expert";
 import type { ContentRow } from "@/agents/content-creator";
 
 export const dynamic = "force-dynamic";
@@ -32,14 +33,17 @@ function Script({ c }: { c: ContentRow }) {
   };
 
   const beatsSummary = b.beats.map((bt) => bt.shot).join(", ");
-  const fallbackPrompt = `Cinematic 9:16 vertical commercial video for modern French driving school IWIGO ECF (${c.title}). ` +
-    `Opening hook: ${b.hook.on_screen_text}. Action sequence: ${beatsSummary}. ` +
-    `Setting: picturesque French suburban street, sunny daylight, inside a pristine modern compact dual-control learner car. ` +
-    `Characters: enthusiastic young French student driver and friendly professional certified instructor with subtle ECF badge. ` +
-    `Camera: dynamic gimbal camera tracking, smooth slow push-in, shallow depth of field, 35mm anamorphic lens look, ultra-realistic 4K texture. ` +
-    `Audio: natively synchronized crisp ambient car interior sound, muffled engine rumble, soft click of turn signal, gentle voiceover in clear natural French: "${b.hook.voiceover}".`;
-
-  const veoPrompt = b.veo_video_prompt || fallbackPrompt;
+  const agency = AGENCIES.find((a) => a.slug === c.agency_slug);
+  const rawPrompt = b.veo_video_prompt;
+  const veoPrompt = rawPrompt && rawPrompt.includes("STRICT ACCENT & VOICE REQUIREMENTS")
+    ? rawPrompt
+    : boostVeoPrompt(rawPrompt || c.title, {
+        title: c.title,
+        agencyCity: agency?.city,
+        hookText: b.hook.on_screen_text,
+        voiceoverText: b.hook.voiceover,
+        beatsSummary,
+      });
     return (
       <div className="space-y-3 rounded-lg bg-slate-50 p-4 text-sm border border-slate-200">
         <div className="flex items-center justify-between">

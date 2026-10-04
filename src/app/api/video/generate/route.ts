@@ -23,7 +23,26 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "GEMINI_API_KEY non configurée" }, { status: 500 });
     }
 
-    const videoPrompt = prompt || (content.body as { veo_video_prompt?: string })?.veo_video_prompt || content.title;
+    const b = content.body as {
+      hook?: { on_screen_text?: string; voiceover?: string };
+      beats?: Array<{ shot?: string; voiceover?: string }>;
+      veo_video_prompt?: string;
+    };
+
+    const { boostVeoPrompt } = await import("@/prompts/veo-expert");
+    const { AGENCIES } = await import("@/agents/local-context");
+    const agency = AGENCIES.find((a) => a.slug === content.agency_slug);
+    const rawPrompt = prompt || b?.veo_video_prompt || content.title;
+
+    const videoPrompt = rawPrompt.includes("STRICT ACCENT & VOICE REQUIREMENTS")
+      ? rawPrompt
+      : boostVeoPrompt(rawPrompt, {
+          title: content.title,
+          agencyCity: agency?.city,
+          hookText: b?.hook?.on_screen_text,
+          voiceoverText: b?.hook?.voiceover,
+          beatsSummary: b?.beats?.map((x) => x.shot).join(", "),
+        });
 
     // Appel à Google VEO 3.1
     const res = await fetch(
