@@ -1,0 +1,149 @@
+[
+  {
+    "agency_slug": "melun",
+    "city": "Melun",
+    "name": "Centre d'examen pratique de Vaux-le-Pénil (Parking DDT)",
+    "type": "exam_center",
+    "address": "288 avenue Georges Clemenceau, 77000 Vaux-le-Pénil",
+    "why_tricky": "Point de départ officiel de l'examen pratique du permis B pour tout le secteur de Melun. Sortie immédiate sur zone d'activités avec vitesse limitée et priorités.",
+    "hook_idea": "C'est ici que 80% des élèves de Melun débutent leur permis : le départ de Vaux-le-Pénil ! Tu connais le premier piège à la sortie ?",
+    "confidence": "high"
+  },
+  {
+    "agency_slug": "melun",
+    "city": "Melun",
+    "name": "Carrefour de l'Europe (Melun Nord / N105)",
+    "type": "intersection",
+    "why_tricky": "Carrefour majeur ultra-fréquenté avec multiples voies de présélection, feux synchronisés et flux venant de la N105 et D606.",
+    "hook_idea": "Le Carrefour de l'Europe à Melun aux heures de pointe : comment bien te placer sans te faire coincer ?",
+    "confidence": "high"
+  },
+  {
+    "agency_slug": "melun",
+    "city": "Melun",
+    "name": "Rond-point de l'Almont (Accès Nouvel Hôpital)",
+    "type": "roundabout",
+    "why_tricky": "Giratoire à fort dénivelé et voies multiples, sorties rapides vers l'hôpital et la rocade avec passages réguliers de véhicules prioritaires (SAMU).",
+    "hook_idea": "Rond-point de l'Almont : si un gyrophare arrive dans ton rétro, quelle est la règle exacte de sécurité ?",
+    "confidence": "high"
+  },
+  {
+    "agency_slug": "melun",
+    "city": "Melun",
+    "name": "Pont Jeanne d'Arc & Place Praslin (Île Saint-Étienne)",
+    "type": "intersection",
+    "why_tricky": "Traversée étroite de la Seine, rétrécissements de voies, passages piétons très denses et bus.",
+    "hook_idea": "Traversée de la Seine à Melun : contrôle direct rétros et angles morts obligatoire face aux cyclistes et piétons !",
+    "confidence": "high"
+  },
+  {
+    "agency_slug": "melun",
+    "city": "Melun",
+    "name": "Plateforme T Zen 2 (Voies de bus réservées en ville)",
+    "type": "tram",
+    "why_tricky": "Feux spécifiques transports en commun (barre blanche), interdiction de circuler sur les voies réservées et traversées piétonnes aménagées.",
+    "hook_idea": "Feux spécifiques et voies T Zen à Melun : le piège qui peut coûter cher le jour de l'examen !",
+    "confidence": "high"
+  },
+  {
+    "agency_slug": "savigny-le-temple",
+    "city": "Savigny-le-Temple",
+    "name": "Rond-point des Cités Unies (Avenue du 8 Mai 1945)",
+    "type": "roundabout",
+    "why_tricky": "Carrefour giratoire central de Savigny reliant la gare RER D, Cesson et les quartiers résidentiels avec afflux aux heures de pointe.",
+    "hook_idea": "Le giratoire des Cités Unies à Savigny : quelle file prendre selon que tu vas vers la gare ou Cesson ?",
+    "confidence": "high"
+  },
+  {
+    "agency_slug": "savigny-le-temple",
+    "city": "Savigny-le-Temple",
+    "name": "Plateforme T Zen 1 (Traversée Sénart / Lieusaint)",
+    "type": "tram",
+    "why_tricky": "Voie en site propre avec priorités absolues pour le bus T Zen 1 et intersections spécifiques régies par des signaux dédiés.",
+    "hook_idea": "T Zen 1 à Savigny : quand le bus approche, qui a réellement la priorité ?",
+    "confidence": "high"
+  },
+  {
+    "agency_slug": "savigny-le-temple",
+    "city": "Savigny-le-Temple",
+    "name": "Échangeurs A5a et N104 Francilienne (Accès Carré Sénart)",
+    "type": "highway_access",
+    "why_tricky": "Voies d'insertion et d'entrecroisement rapides à 110 km/h avec forte circulation de poids lourds.",
+    "hook_idea": "Insertion sur la Francilienne à Sénart : comment gérer le regard et la vitesse sans hésiter ?",
+    "confidence": "high"
+  },
+  {
+    "agency_slug": "savigny-le-temple",
+    "city": "Savigny-le-Temple",
+    "name": "Zone 30 du Bourg de Savigny (Rues historiques)",
+    "type": "zone30",
+    "why_tricky": "Rues étroites avec priorités à droite non signalées dissimulées par les véhicules en stationnement.",
+    "hook_idea": "Zone 30 du vieux Savigny : 3 priorités à droite en 500 mètres. Les as-tu repérées ?",
+    "confidence": "high"
+  },
+  {
+    "agency_slug": "le-chatelet-en-brie",
+    "city": "Le Châtelet-en-Brie",
+    "name": "Axe D605 (Traversée de la Brie / ex-N105)",
+    "type": "intersection",
+    "why_tricky": "Axe départemental rapide à 80 km/h avec alternance de giratoires d'accès aux zones d'activités et engins agricoles.",
+    "hook_idea": "D605 entre Melun et Le Châtelet : dépassement d'un tracteur, as-tu vérifié la signalisation au sol ?",
+    "confidence": "high"
+  },
+  {
+    "agency_slug": "le-chatelet-en-brie",
+    "city": "Le Châtelet-en-Brie",
+    "name": "Traversée du centre-bourg (Rue du 19 Mars / Mairie)",
+    "type": "zone30",
+    "why_tricky": "Coussins berlinois, passages piétons fréquentés par les collégiens (Collège Rosa Bonheur), priorités à droite.",
+    "hook_idea": "Sortie du Collège au Châtelet : piétons masqués et allure adaptée, le réflexe sécurité.",
+    "confidence": "high"
+  },
+  {
+    "agency_slug": "le-chatelet-en-brie",
+    "city": "Le Châtelet-en-Brie",
+    "name": "Échangeur A5 sortie 16 (Châtillon-la-Borde)",
+    "type": "highway_access",
+    "why_tricky": "Rétrécissement avant le péage, virage serré sur la bretelle d'accès et passage de 130 km/h à l'arrêt péage.",
+    "hook_idea": "Sortie 16 de l'A5 au Châtelet : le piège du freinage sur bretelle de décélération.",
+    "confidence": "high"
+  },
+  {
+    "agency_slug": "saint-pierre-du-perray",
+    "city": "Saint-Pierre-du-Perray",
+    "name": "Centre d'examen pratique de Villabé (DIRIF, Route de Lisses)",
+    "type": "exam_center",
+    "address": "Route de Lisses, 91100 Villabé",
+    "why_tricky": "Centre d'examen pratique majeur de l'Essonne pour le secteur Évry / Corbeil / Saint-Pierre. Connu pour ses giratoires avec pistes cyclables et insertion A6.",
+    "hook_idea": "Centre d'examen de Villabé : les 3 erreurs éliminatoires les plus fréquentes à l'insertion A6 !",
+    "confidence": "high"
+  },
+  {
+    "agency_slug": "saint-pierre-du-perray",
+    "city": "Saint-Pierre-du-Perray",
+    "name": "Centre d'examen pratique d'Évry-Courcouronnes (Avenue de la Préfecture)",
+    "type": "exam_center",
+    "address": "Avenue de la Préfecture, 91000 Évry",
+    "why_tricky": "Environnement urbain dense, passage d'anciens quartiers en zone 30 à la voie rapide N7.",
+    "hook_idea": "Examen d'Évry : passage direct de la zone urbaine à la N7, as-tu bien vérifié ta vitesse ?",
+    "confidence": "high"
+  },
+  {
+    "agency_slug": "saint-pierre-du-perray",
+    "city": "Saint-Pierre-du-Perray",
+    "name": "Rond-point du Golf / Allée Royale (Liaison Saint-Germain-lès-Corbeil)",
+    "type": "roundabout",
+    "why_tricky": "Grand giratoire bordé d'arbres reliant Corbeil, Saint-Pierre et Sénart, visibilité masquée par la végétation en été.",
+    "hook_idea": "Giratoire du Golf à Saint-Pierre : mauvaise visibilité à gauche, comment anticiper sans s'arrêter net ?",
+    "confidence": "high"
+  },
+  {
+    "agency_slug": "saint-pierre-du-perray",
+    "city": "Saint-Pierre-du-Perray",
+    "name": "Échangeur 27 de la N104 Francilienne (Tigery / Saint-Pierre)",
+    "type": "highway_access",
+    "why_tricky": "Courbe d'insertion prononcée, voies très chargées matin et soir vers Évry et Melun.",
+    "hook_idea": "Accès Francilienne N104 à Saint-Pierre : l'angle mort sur bretelle courbe qui élimine le jour J.",
+    "confidence": "high"
+  }
+]

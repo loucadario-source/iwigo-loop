@@ -25,6 +25,37 @@ export default async function Home() {
         </div>
       </div>
 
+      {/* BANNIÈRE CROISSANCE & GAMIFICATION VIRALE */}
+      <div className="rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-900 via-indigo-900 to-ecf-primary p-6 text-white shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="space-y-1">
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-0.5 text-xs font-bold text-amber-300 border border-white/20">
+            <span>🚀</span>
+            <span>MOTEUR DE CROISSANCE LOCALE & GAMIFICATION</span>
+          </div>
+          <h2 className="text-lg font-bold">Mini-Quiz du Code en Ligne & 16 Lieux Réels Détectés</h2>
+          <p className="text-xs text-blue-200 max-w-2xl leading-relaxed">
+            Votre mini-quiz mobile public est actif sur <b>/quiz</b> (10 questions certifiées ETG 2026 avec partage de score en Story Instagram). Les 16 points réels (centres d&apos;examen de Vaux-le-Pénil &amp; Villabé, T Zen 1 &amp; 2, Cités Unies) sont désormais injectés dans les prompts d&apos;accroche locale.
+          </p>
+        </div>
+        <div className="flex shrink-0 gap-2">
+          <a
+            href="/quiz"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-xl bg-white px-4 py-2.5 text-xs font-bold text-blue-900 shadow hover:bg-blue-50 transition-all flex items-center gap-1.5"
+          >
+            <span>📱</span>
+            <span>Tester le Quiz Mobile</span>
+          </a>
+          <a
+            href="/review"
+            className="rounded-xl bg-white/15 border border-white/30 px-4 py-2.5 text-xs font-bold text-white hover:bg-white/25 transition-all"
+          >
+            Voir les Posts
+          </a>
+        </div>
+      </div>
+
       <div className="grid gap-4 md:grid-cols-2">
         <section className="card p-5">
           <h2 className="mb-3 font-heading font-bold">Charte active (v{brand.version} · {brand.generated_by})</h2>

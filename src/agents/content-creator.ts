@@ -90,10 +90,15 @@ export async function generateOne(a: GenerateArgs) {
   const agency = AGENCIES.find((x) => x.slug === a.agencySlug) ?? AGENCIES[Math.floor(Math.random() * AGENCIES.length)];
   const system = contentCreatorSystem(brand, AGENCIES);
 
+  const localLandmarks = (await import("@/data/local-landmarks.json")).default;
+  const agencyLandmarks = localLandmarks.filter((l) => l.agency_slug === agency.slug);
+  const pickedLandmark = agencyLandmarks.length ? agencyLandmarks[Math.floor(Math.random() * agencyLandmarks.length)] : null;
+
   let user = `Pilier : ${a.pillar}
 Format : ${format}
 Agence mise en avant : ${agency.city} (${agency.postal_code}) — hashtags locaux suggérés : ${localHashtags(agency).join(" ")}
-${a.trend ? `Tendance / source :\n"""\n${a.trend.title}\n${a.trend.summary ?? ""}\nAngle suggéré : ${a.trend.suggested_angle ?? "-"}\nSource : ${a.trend.source_url ?? "-"}\n"""` : "Pas de tendance : produis un contenu pédagogique evergreen (code / conduite / sécurité)."}
+${pickedLandmark ? `POINT ROUTIER OU PIÈGE LOCAL RÉEL (ANCRAGE GÉOGRAPHIQUE CONCRET) :\n- Lieu : ${pickedLandmark.name}\n- Pourquoi c'est piégeux : ${pickedLandmark.why_tricky}\n- Idée d'accroche locale : "${pickedLandmark.hook_idea}"\n` : ""}
+${a.trend ? `Tendance / source :\n"""\n${a.trend.title}\n${a.trend.summary ?? ""}\nAngle suggéré : ${a.trend.suggested_angle ?? "-"}\nSource : ${a.trend.source_url ?? "-"}\n"""` : "Pas de tendance : produis un contenu pédagogique interactif evergreen (code de la route / astuce d'examen pratique / quiz permis B)."}
 Contenus des 14 derniers jours (ne pas répéter) : ${recent.map((r) => r.title).join(" | ") || "aucun"}
 Retours humains récents à appliquer : ${feedback.map((f) => `"${f.title}" → ${f.review_note}`).join(" | ") || "aucun"}`;
   if (a.parent && a.revisionNote) {
