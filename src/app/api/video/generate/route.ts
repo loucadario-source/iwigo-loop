@@ -45,10 +45,10 @@ export async function POST(req: Request) {
     });
 
     const alreadyHasVideoOnThis = Boolean((content.body as { video_url?: string })?.video_url);
-    if (generatedThisWeek.length >= 1 && !alreadyHasVideoOnThis) {
+    if (generatedThisWeek.length >= 6 && !alreadyHasVideoOnThis) {
       return NextResponse.json(
         {
-          error: "Quota hebdomadaire atteint (1 vidéo / semaine). Ce verrou garantit l'équilibre éditorial et la rentabilité du système. Prochaine vidéo disponible dès lundi.",
+          error: "Quota hebdomadaire atteint (6 vidéos / semaine). Ce verrou garantit l'équilibre éditorial et la rentabilité du système. Prochaine vidéo disponible dès lundi.",
           quotaReached: true,
         },
         { status: 429 }

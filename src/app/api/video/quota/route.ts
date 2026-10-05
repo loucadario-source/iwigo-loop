@@ -35,7 +35,7 @@ export async function GET() {
     });
 
     const countThisWeek = generatedThisWeek.length;
-    const maxPerWeek = 1;
+    const maxPerWeek = 6;
     const remaining = Math.max(0, maxPerWeek - countThisWeek);
 
     return NextResponse.json({
