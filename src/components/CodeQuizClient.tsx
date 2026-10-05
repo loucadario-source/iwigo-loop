@@ -43,8 +43,17 @@ const AGENCIES = [
 ];
 
 export function CodeQuizClient() {
-  // Sélection aléatoire de 10 questions (4 faciles, 4 moyennes, 2 difficiles)
-  const sessionQuestions = useMemo(() => {
+  const [mounted, setMounted] = useState(false);
+  const [sessionQuestions, setSessionQuestions] = useState<Question[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [score, setScore] = useState(0);
+  const [isAnswered, setIsAnswered] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
+  const [copiedShare, setCopiedShare] = useState(false);
+
+  useEffect(() => {
+    // Sélection aléatoire de 10 questions côté client uniquement (évite le conflit d'hydratation SSR)
     const easy = quizData.filter((q) => q.difficulty === "easy");
     const medium = quizData.filter((q) => q.difficulty === "medium");
     const hard = quizData.filter((q) => q.difficulty === "hard");
@@ -56,15 +65,9 @@ export function CodeQuizClient() {
       ...shuffle(medium).slice(0, 4),
       ...shuffle(hard).slice(0, 2),
     ];
-    return shuffle(selected);
+    setSessionQuestions(shuffle(selected));
+    setMounted(true);
   }, []);
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-  const [score, setScore] = useState(0);
-  const [isAnswered, setIsAnswered] = useState(false);
-  const [isFinished, setIsFinished] = useState(false);
-  const [copiedShare, setCopiedShare] = useState(false);
 
   const currentQ = sessionQuestions[currentIndex];
 
@@ -104,6 +107,15 @@ export function CodeQuizClient() {
     if (score >= 5) return { title: "Pas mal, mais attention aux pièges ! ⚠️", desc: "Les notions de base sont là, mais les questions éliminatoires demandent une révision." };
     return { title: "Besoin d'un petit échauffement ! 📚", desc: "Pas d'inquiétude : un petit stage ou quelques séries en agence et tu seras au top !" };
   };
+
+  if (!mounted || sessionQuestions.length === 0) {
+    return (
+      <div className="mx-auto max-w-lg px-4 py-12 text-center">
+        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
+        <p className="mt-3 text-xs font-semibold text-slate-500">Chargement de votre série express...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-lg px-4 py-6">
