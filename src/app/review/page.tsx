@@ -97,7 +97,11 @@ export default async function Review({ searchParams }: { searchParams: { tab?: s
               <span className="badge bg-slate-100">{c.format}</span>
               <span className="badge bg-slate-100">📍 {AGENCIES.find((a) => a.slug === c.agency_slug)?.city ?? "réseau"}</span>
               <span className="badge bg-slate-100">v{c.version}</span>
-              <span className="badge bg-slate-100">{c.status}</span>
+              {c.status === "pending_review" && <span className="badge bg-amber-100 text-amber-800 font-bold">⏳ À valider</span>}
+              {c.status === "approved" && <span className="badge bg-green-100 text-green-800 font-bold">✅ Approuvé</span>}
+              {c.status === "rejected" && <span className="badge bg-rose-100 text-rose-800 font-bold">❌ Rejeté</span>}
+              {c.status === "published" && <span className="badge bg-blue-100 text-blue-800 font-bold">🚀 Publié</span>}
+              {c.status === "changes_requested" && <span className="badge bg-orange-100 text-orange-800 font-bold">🔄 En régénération</span>}
               {c.brand_check && <span className={`badge ${c.brand_check.score >= 7 ? "bg-green-100 text-green-800" : "bg-amber-100 text-amber-800"}`}>Charte {c.brand_check.score}/10</span>}
               {c.needs_fact_check && <span className="badge bg-red-100 text-red-800">⚠️ À vérifier</span>}
             </header>
@@ -139,6 +143,11 @@ export default async function Review({ searchParams }: { searchParams: { tab?: s
             ) : (
               <div className="space-y-2">
                 <pre className="whitespace-pre-wrap rounded-lg bg-slate-50 p-3 text-sm">{fullText}</pre>
+                {c.status === "rejected" && (
+                  <div className="rounded-lg border border-rose-200 bg-rose-50 p-3 text-xs text-rose-800 flex items-center justify-between">
+                    <span>❌ <b>Contenu rejeté</b> — Ce post a été écarté et ne sera pas publié sur vos réseaux sociaux.</span>
+                  </div>
+                )}
                 {c.status === "approved" && (
                   <div className="flex flex-wrap items-center gap-2">
                     <CopyButton text={fullText} />
