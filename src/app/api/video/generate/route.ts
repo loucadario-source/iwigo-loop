@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/supabase";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   try {
     const { contentId, prompt } = await req.json();
