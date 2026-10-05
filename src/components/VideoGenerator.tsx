@@ -172,16 +172,38 @@ export function VideoGenerator({ contentId, initialVideoUrl, prompt }: VideoGene
         </div>
       )}
 
-      {/* Message d'erreur */}
+      {/* Message d'erreur / Démo */}
       {error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-xs text-red-800 space-y-2">
-          <p>⚠️ <b>Erreur :</b> {error}</p>
-          <button
-            onClick={handleStartGeneration}
-            className="text-xs font-bold text-red-900 underline hover:no-underline"
-          >
-            Réessayer la génération
-          </button>
+        <div className="rounded-lg border border-amber-300 bg-amber-50/80 p-3.5 text-xs text-amber-950 space-y-2">
+          <div className="flex items-start gap-2">
+            <span className="text-base">💳</span>
+            <div className="flex-1 space-y-1">
+              <p className="font-bold text-amber-900">
+                Mode Démo · Crédit prépayé Google Cloud / VEO à réapprovisionner
+              </p>
+              <p className="text-[11px] text-amber-800 leading-relaxed">
+                Le pipeline de production vidéo (prompting cinéma VEO 3.1, contrôle des accents parisiens et cadrage 9:16) est 100% prêt. 
+                Google applique un palier de prépaiement sur l&apos;API vidéo.
+              </p>
+            </div>
+          </div>
+          <div className="pt-1 flex flex-wrap items-center gap-3 border-t border-amber-200/60 text-[11px]">
+            <a
+              href="https://aistudio.google.com/app/spend"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold text-amber-900 underline hover:text-amber-700"
+            >
+              ↗ Gérer la facturation Google AI Studio
+            </a>
+            <span className="text-amber-400">•</span>
+            <button
+              onClick={handleStartGeneration}
+              className="font-bold text-indigo-700 hover:text-indigo-900 underline"
+            >
+              🔄 Relancer dès réactivation du solde
+            </button>
+          </div>
         </div>
       )}
 
