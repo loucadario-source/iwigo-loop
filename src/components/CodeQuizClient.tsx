@@ -16,10 +16,30 @@ interface Question {
 }
 
 const AGENCIES = [
-  { city: "Melun", phone: "01 64 39 12 34", address: "Gare & Centre-Ville" },
-  { city: "Savigny-le-Temple", phone: "01 64 41 56 78", address: "Place Paul Desphelipon" },
-  { city: "Le Châtelet-en-Brie", phone: "01 64 25 90 12", address: "Centre-Bourg" },
-  { city: "Saint-Pierre-du-Perray", phone: "01 60 75 34 56", address: "Secteur Carré Sénart" },
+  {
+    city: "Melun",
+    phone: "01 64 39 12 34",
+    address: "Gare & Centre-Ville",
+    facebookUrl: "https://www.facebook.com/p/Iwigo-Permis-Melun-100063569949985/?locale=fr_FR",
+  },
+  {
+    city: "Savigny-le-Temple",
+    phone: "01 64 41 56 78",
+    address: "Place Paul Desphelipon",
+    facebookUrl: "https://www.facebook.com/p/Iwigo-Permis-Savigny-100053445225017/?locale=fr_FR",
+  },
+  {
+    city: "Le Châtelet-en-Brie",
+    phone: "01 64 25 90 12",
+    address: "Centre-Bourg",
+    facebookUrl: "https://www.facebook.com/p/Iwigo-Permis-Le-Chatelet-100049723672955/",
+  },
+  {
+    city: "Saint-Pierre-du-Perray",
+    phone: "01 60 75 34 56",
+    address: "Secteur Carré Sénart",
+    facebookUrl: "https://www.facebook.com/p/Iwigo-Permis-Melun-100063569949985/?locale=fr_FR",
+  },
 ];
 
 export function CodeQuizClient() {
@@ -72,7 +92,7 @@ export function CodeQuizClient() {
   };
 
   const handleShare = () => {
-    const text = `🏆 J'ai obtenu ${score}/10 au Défi Code de la Route IWIGO ECF ! Fais le test pour voir si tu as encore ton code : ${window.location.href}`;
+    const text = `🏆 J'ai fait ${score}/10 au Défi Code de la Route IWIGO ECF ! Fais le test pour voir ton score et abonne-toi à @iwigopermis_melun pour les astuces permis : ${window.location.href}`;
     navigator.clipboard.writeText(text);
     setCopiedShare(true);
     setTimeout(() => setCopiedShare(false), 3000);
@@ -239,7 +259,7 @@ export function CodeQuizClient() {
                 className="w-full rounded-xl bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 py-3 text-xs font-bold text-white shadow-md hover:opacity-95 transition-all flex items-center justify-center gap-2"
               >
                 <span>📲</span>
-                <span>{copiedShare ? "✅ Texte copié pour ta Story Instagram !" : "Partager mon score en Story Instagram"}</span>
+                <span>{copiedShare ? "✅ Texte copié avec @iwigopermis_melun !" : "Partager mon score en Story Instagram"}</span>
               </button>
 
               <button
@@ -248,6 +268,73 @@ export function CodeQuizClient() {
               >
                 🔄 Recommencer avec 10 nouvelles questions
               </button>
+            </div>
+          </div>
+
+          {/* BLOC ABONNEMENT RÉSEAUX SOCIAUX (INSTAGRAM & FACEBOOK) */}
+          <div className="rounded-2xl border border-pink-200 bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 p-5 shadow-sm space-y-3.5">
+            <div className="text-center space-y-1">
+              <div className="inline-flex items-center gap-1.5 rounded-full bg-pink-100 px-3 py-0.5 text-xs font-bold text-pink-900 border border-pink-200">
+                <span>📸</span>
+                <span>COMMUNAUTÉ IWIGO ECF</span>
+              </div>
+              <h4 className="text-base font-bold text-slate-900">Révise ton Code &amp; Permis chaque semaine</h4>
+              <p className="text-xs text-slate-600">
+                Chaque lundi : un piège d&apos;examen décrypté en vidéo Reel, des quiz en Story et les dates de passage au permis !
+              </p>
+            </div>
+
+            {/* Bouton Instagram Star */}
+            <a
+              href="https://www.instagram.com/iwigopermis_melun/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full rounded-xl bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 p-3.5 text-xs font-bold text-white shadow-md hover:opacity-95 transition-all flex items-center justify-between"
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="text-xl">📸</span>
+                <div className="text-left">
+                  <div className="font-extrabold text-sm">S&apos;abonner sur Instagram</div>
+                  <div className="text-[11px] text-pink-100 font-normal">@iwigopermis_melun · Astuces, Reels &amp; Stories</div>
+                </div>
+              </div>
+              <span className="rounded-lg bg-white/20 px-2.5 py-1 text-xs font-bold">Suivre ↗</span>
+            </a>
+
+            {/* Pages Facebook Officielles */}
+            <div className="space-y-1.5 pt-1">
+              <div className="text-[11px] font-bold text-slate-600 uppercase tracking-wider text-center">
+                Suis aussi la page Facebook de ton agence :
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <a
+                  href="https://www.facebook.com/p/Iwigo-Permis-Melun-100063569949985/?locale=fr_FR"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-lg bg-white p-2 border border-blue-200 text-center hover:bg-blue-50 transition-all text-xs font-semibold text-blue-900 flex items-center justify-center gap-1.5 shadow-2xs"
+                >
+                  <span>📘</span>
+                  <span>Melun</span>
+                </a>
+                <a
+                  href="https://www.facebook.com/p/Iwigo-Permis-Savigny-100053445225017/?locale=fr_FR"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-lg bg-white p-2 border border-blue-200 text-center hover:bg-blue-50 transition-all text-xs font-semibold text-blue-900 flex items-center justify-center gap-1.5 shadow-2xs"
+                >
+                  <span>📘</span>
+                  <span>Savigny</span>
+                </a>
+                <a
+                  href="https://www.facebook.com/p/Iwigo-Permis-Le-Chatelet-100049723672955/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-lg bg-white p-2 border border-blue-200 text-center hover:bg-blue-50 transition-all text-xs font-semibold text-blue-900 flex items-center justify-center gap-1.5 shadow-2xs"
+                >
+                  <span>📘</span>
+                  <span>Le Châtelet</span>
+                </a>
+              </div>
             </div>
           </div>
 
@@ -265,6 +352,14 @@ export function CodeQuizClient() {
                   <div className="font-bold text-slate-900">📍 {ag.city}</div>
                   <div className="text-[11px] text-slate-500 truncate">{ag.address}</div>
                   <div className="text-[11px] font-semibold text-blue-700">{ag.phone}</div>
+                  <a
+                    href={ag.facebookUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[10px] text-blue-800 hover:underline flex items-center gap-1 pt-0.5"
+                  >
+                    <span>📘</span> Page Facebook ↗
+                  </a>
                 </div>
               ))}
             </div>
