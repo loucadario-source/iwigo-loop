@@ -7,8 +7,15 @@ import { reviewContent } from "@/lib/review";
 import { db } from "@/lib/supabase";
 import { inngest } from "@/inngest/client";
 
+function checkAdmin(): boolean {
+  const cookie = cookies().get("iwigo_admin")?.value;
+  return !!cookie && cookie === process.env.ADMIN_TOKEN;
+}
+
 function assertAdmin() {
-  if (cookies().get("iwigo_admin")?.value !== process.env.ADMIN_TOKEN) throw new Error("unauthorized");
+  if (!checkAdmin()) {
+    redirect("/login?expired=1");
+  }
 }
 
 export async function login(form: FormData) {
@@ -22,16 +29,23 @@ export async function login(form: FormData) {
 }
 
 export async function reviewAction(form: FormData) {
-  assertAdmin();
+  if (!checkAdmin()) {
+    redirect("/login?expired=1");
+  }
   const caption = form.get("caption");
-  await reviewContent({
-    contentId: String(form.get("id")),
-    decision: String(form.get("decision")),
-    reviewer: "dashboard",
-    note: String(form.get("note") ?? "") || undefined,
-    patch: typeof caption === "string" ? { caption } : undefined,
-  });
+  try {
+    await reviewContent({
+      contentId: String(form.get("id")),
+      decision: String(form.get("decision")),
+      reviewer: "dashboard",
+      note: String(form.get("note") ?? "") || undefined,
+      patch: typeof caption === "string" ? { caption } : undefined,
+    });
+  } catch (err) {
+    console.error("reviewContent failed:", err);
+  }
   revalidatePath("/review");
+  revalidatePath("/");
 }
 
 export async function markPublishedManually(form: FormData) {
