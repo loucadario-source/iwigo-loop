@@ -7,10 +7,13 @@ import { z } from "zod";
 type Provider = "gemini" | "anthropic" | "openai";
 
 const DEFAULTS: Record<Provider, { main: string; fast: string }> = {
-  gemini: { main: "gemini-3.8-flash", fast: "gemini-3.8-flash" },
+  gemini: { main: "gemini-2.5-flash", fast: "gemini-2.5-flash" },
   anthropic: { main: "claude-sonnet-4-5", fast: "claude-haiku-4-5" },
   openai: { main: "gpt-4o", fast: "gpt-4o-mini" },
 };
+
+// GARDE-FOU BUDGÉTAIRE STRICT : Interdiction totale des modèles vidéo/veo et coûteux
+const FORBIDDEN_MODEL_PATTERNS = [/veo/i, /video/i, /sora/i];
 
 export interface LlmCall {
   system: string;
@@ -25,6 +28,11 @@ function cfg(fast?: boolean) {
   const model = fast
     ? process.env.LLM_MODEL_FAST || DEFAULTS[provider].fast
     : process.env.LLM_MODEL || DEFAULTS[provider].main;
+
+  if (FORBIDDEN_MODEL_PATTERNS.some((pattern) => pattern.test(model))) {
+    throw new Error(`[Sécurité Budget IWIGO] Modèle interdit détecté: ${model}. Aucun appel vidéo ou onéreux n'est autorisé.`);
+  }
+
   return { provider, model };
 }
 

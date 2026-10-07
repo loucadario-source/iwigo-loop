@@ -48,7 +48,7 @@ function Script({ c }: { c: ContentRow }) {
       <div className="space-y-3 rounded-lg bg-slate-50 p-4 text-sm border border-slate-200">
         <div className="flex items-center justify-between">
           <p className="font-semibold text-ecf-primary">🎬 Script Reel/TikTok · {b.duration_s}s {b.audio_suggestion && `· 🎵 ${b.audio_suggestion}`}</p>
-          <span className="badge bg-purple-100 text-purple-800 font-bold">Compatible Google Flow / VEO 3.1</span>
+          <span className="badge bg-slate-100 text-slate-800 font-bold">Tournage Manuel / Carrousel Imagen 3</span>
         </div>
         <p><b>Hook (0-3s)</b> : « {b.hook.on_screen_text} » — 🗣 {b.hook.voiceover}</p>
         <ol className="ml-4 list-decimal space-y-1">{b.beats.map((x, i) => <li key={i}><b>{x.t}</b> [{x.shot}] « {x.on_screen_text} » — {x.voiceover}</li>)}</ol>

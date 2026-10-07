@@ -49,117 +49,43 @@ export function VideoGenerator({ contentId, initialVideoUrl, prompt }: VideoGene
   }, []);
 
   const handleStartGeneration = async () => {
-    try {
-      setIsGenerating(true);
-      setError(null);
-      setSecondsElapsed(0);
-      setStatusMessage("Étape 1/2 : Envoi du prompt cinématographique à Google VEO 3.1...");
-
-      // Démarrage du chronomètre
-      timerIntervalRef.current = setInterval(() => {
-        setSecondsElapsed((prev) => prev + 1);
-      }, 1000);
-
-      // 1. Déclenchement de la génération
-      const res = await fetch("/api/video/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ contentId, prompt }),
-      });
-
-      const data = await res.json();
-      if (!res.ok || data.error) {
-        throw new Error(data.error || "Impossible d'initialiser la génération VEO 3.1");
-      }
-
-      const operationName = data.operationName;
-      setStatusMessage("Étape 2/2 : Rendu cinématographique 9:16 en cours (~60s)...");
-
-      // 2. Sondage régulier
-      pollIntervalRef.current = setInterval(async () => {
-        try {
-          const statusRes = await fetch(
-            `/api/video/status?op=${encodeURIComponent(operationName)}&contentId=${encodeURIComponent(contentId)}`
-          );
-          const statusData = await statusRes.json();
-
-          if (!statusRes.ok || statusData.error) {
-            throw new Error(statusData.error || "Erreur de traitement vidéo");
-          }
-
-          if (statusData.done && statusData.videoUrl) {
-            // Terminé !
-            if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
-            if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
-            setVideoUrl(statusData.videoUrl);
-            setIsGenerating(false);
-            setStatusMessage("");
-            fetchQuota();
-          }
-        } catch (pollErr: unknown) {
-          if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
-          if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
-          setIsGenerating(false);
-          const msg = pollErr instanceof Error ? pollErr.message : String(pollErr);
-          setError(msg);
-        }
-      }, 6000);
-    } catch (err: unknown) {
-      if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
-      setIsGenerating(false);
-      const msg = err instanceof Error ? err.message : String(err);
-      setError(msg);
-    }
+    setError("La génération vidéo automatisée via l'API Veo a été désactivée définitivement pour préserver le budget. Vous pouvez copier le script ou tourner la vidéo au smartphone avec vos moniteurs.");
   };
 
   return (
-    <div className="mt-3 rounded-xl border border-purple-200 bg-purple-50/70 p-4">
+    <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50/80 p-4">
       <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
         <div>
-          <h4 className="font-semibold text-purple-950 text-sm flex items-center gap-1.5">
-            <span>🎥</span> Vidéo VEO 3.1 (Google DeepMind)
-            {quota && (
-              <span
-                className={`ml-2 text-[11px] font-bold px-2 py-0.5 rounded-full border ${
-                  quota.canGenerate
-                    ? "bg-green-50 text-green-700 border-green-200"
-                    : "bg-amber-50 text-amber-800 border-amber-200"
-                }`}
-              >
-                {quota.canGenerate
-                  ? `⚡ Quota : ${quota.remaining}/${quota.maxPerWeek} vidéo dispo cette semaine`
-                  : `🔒 Quota hebdo atteint (1/1 cette semaine)`}
-              </span>
-            )}
+          <h4 className="font-semibold text-slate-900 text-sm flex items-center gap-1.5">
+            <span>🎬</span> Script Vidéo Vertical 9:16 (Tournage Réel / Reels & TikTok)
+            <span className="ml-2 text-[11px] font-bold px-2 py-0.5 rounded-full border bg-slate-100 text-slate-700 border-slate-200">
+              🛡️ API Veo Désactivée (0 € de frais)
+            </span>
           </h4>
-          <p className="text-xs text-purple-800">
-            Format vertical 9:16 natif · Spécialité Permis B & ECF · Rendu One-Shot Ultra-Premium
+          <p className="text-xs text-slate-600">
+            Structure conçue pour tournage smartphone en auto-école ou conversion en carrousel photo Imagen 3.
           </p>
         </div>
 
-        {!videoUrl && !isGenerating && (
-          <div>
-            {quota && !quota.canGenerate ? (
-              <div className="text-right">
-                <button
-                  disabled
-                  className="rounded-lg bg-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-500 cursor-not-allowed border border-slate-300"
-                >
-                  🔒 Quota atteint (1/semaine)
-                </button>
-                <p className="text-[10px] text-slate-500 mt-0.5">Dispo dès lundi 00h</p>
-              </div>
-            ) : (
-              <button
-                onClick={handleStartGeneration}
-                className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 px-4 py-2 text-xs font-bold text-white shadow-sm hover:from-purple-700 hover:to-indigo-700 active:scale-95 transition-all"
-              >
-                <span>🎬</span> Générer la vidéo (1-Clic)
-              </button>
-            )}
-          </div>
-        )}
+        <div>
+          <button
+            onClick={() => {
+              navigator.clipboard?.writeText(prompt);
+              setStatusMessage("Prompt vidéo copié dans le presse-papier !");
+              setTimeout(() => setStatusMessage(""), 3000);
+            }}
+            className="inline-flex items-center gap-1.5 rounded-lg bg-slate-800 px-3 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-slate-900 transition-all"
+          >
+            <span>📋</span> Copier le prompt du script
+          </button>
+        </div>
       </div>
+
+      {statusMessage && (
+        <div className="p-2 rounded bg-green-50 border border-green-200 text-xs text-green-800 font-semibold mb-2">
+          ✅ {statusMessage}
+        </div>
+      )}
 
       {/* État de chargement en direct */}
       {isGenerating && (

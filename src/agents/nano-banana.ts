@@ -1,7 +1,8 @@
 /**
- * AGENT NANO BANANA / GEMINI IMAGE GENERATOR
- * Utilise le modèle Google Nano Banana Pro (`models/gemini-3-pro-image`) pour générer
- * des visuels ultra-réalistes et personnalisés respectant le contexte auto-école IWIGO ECF.
+ * AGENT IMAGE GENERATOR - GOOGLE IMAGEN 3
+ * Modèle officiel économique : `imagen-3.0-generate-002`
+ * Utilisé pour générer des visuels fixes 1:1 pour carrousels et publications statiques.
+ * Remplacement économique et sécurisé interdisant tout modèle vidéo.
  */
 
 export async function generateNanoBananaImage(prompt: string): Promise<string | null> {
@@ -10,37 +11,38 @@ export async function generateNanoBananaImage(prompt: string): Promise<string | 
 
   try {
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-image:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`,
       {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          contents: [
+          instances: [
             {
-              parts: [
-                {
-                  text: `High quality commercial photography, 4k, cinematic, realistic lighting, French suburban context: ${prompt}. Professional shot for modern driving school social media. No ugly, no blurry, no deformed limbs.`,
-                },
-              ],
+              prompt: `High quality commercial photography, 4k, clean composition, natural lighting, French driving school context: ${prompt}. Professional social media visual for ECF / IWIGO auto-école. Realistic, sharp focus, no distorted faces or impossible geometry.`,
             },
           ],
+          parameters: {
+            sampleCount: 1,
+            aspectRatio: "1:1",
+            outputMimeType: "image/jpeg",
+          },
         }),
       }
     );
 
     if (!res.ok) {
-      console.warn("Nano Banana Pro API returned status:", res.status);
+      console.warn("Imagen 3 API returned status:", res.status);
       return null;
     }
 
     const data = await res.json();
-    const part = data.candidates?.[0]?.content?.parts?.find((p: any) => p.inlineData);
-    if (!part?.inlineData?.data) return null;
+    const b64 = data.predictions?.[0]?.bytesBase64Encoded;
+    if (!b64) return null;
 
-    const mime = part.inlineData.mimeType || "image/jpeg";
-    return `data:${mime};base64,${part.inlineData.data}`;
+    const mime = data.predictions?.[0]?.mimeType || "image/jpeg";
+    return `data:${mime};base64,${b64}`;
   } catch (err) {
-    console.warn("Error calling Nano Banana Pro image model:", err);
+    console.warn("Error calling Imagen 3 model:", err);
     return null;
   }
 }

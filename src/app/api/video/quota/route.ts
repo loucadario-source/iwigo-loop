@@ -19,34 +19,13 @@ function getNextMonday(): Date {
 }
 
 export async function GET() {
-  try {
-    const monday = getMondayThisWeek().toISOString();
-
-    const { data: contents } = await db()
-      .from("contents")
-      .select("id,created_at,body")
-      .not("body->video_url", "is", null);
-
-    const generatedThisWeek = (contents ?? []).filter((item) => {
-      const b = item.body as { video_url?: string; video_generated_at?: string };
-      if (!b?.video_url) return false;
-      const genDate = b.video_generated_at || item.created_at;
-      return genDate >= monday;
-    });
-
-    const countThisWeek = generatedThisWeek.length;
-    const maxPerWeek = 6;
-    const remaining = Math.max(0, maxPerWeek - countThisWeek);
-
-    return NextResponse.json({
-      countThisWeek,
-      maxPerWeek,
-      remaining,
-      canGenerate: remaining > 0,
-      resetsAt: getNextMonday().toISOString(),
-    });
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json({ error: message }, { status: 500 });
-  }
+  return NextResponse.json({
+    countThisWeek: 0,
+    maxPerWeek: 0,
+    remaining: 0,
+    canGenerate: false,
+    resetsAt: null,
+    disabled: true,
+    message: "Génération vidéo désactivée. Production axée sur les visuels et carrousels fixes Imagen 3.",
+  });
 }
