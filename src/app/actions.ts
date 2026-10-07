@@ -50,15 +50,23 @@ export async function reviewAction(form: FormData) {
 
 export async function markPublishedManually(form: FormData) {
   assertAdmin();
-  await db().from("contents").update({ status: "published", published_at: new Date().toISOString() }).eq("id", String(form.get("id"))).eq("status", "approved");
+  try {
+    await db().from("contents").update({ status: "published", published_at: new Date().toISOString() }).eq("id", String(form.get("id"))).eq("status", "approved");
+  } catch (err) {
+    console.error("markPublishedManually failed:", err);
+  }
   revalidatePath("/review");
 }
 
 export async function publishToSocialsAction(form: FormData) {
   assertAdmin();
   const id = String(form.get("id"));
-  const { publishContent } = await import("@/lib/meta");
-  await publishContent(id);
+  try {
+    const { publishContent } = await import("@/lib/meta");
+    await publishContent(id);
+  } catch (err) {
+    console.error("publishContent failed:", err);
+  }
   revalidatePath("/review");
   revalidatePath("/");
 }
@@ -66,15 +74,23 @@ export async function publishToSocialsAction(form: FormData) {
 
 export async function moveLead(id: string, stage: "nouveau" | "contacte" | "inscrit" | "perdu") {
   assertAdmin();
-  const extra = stage === "contacte" ? { contacted_at: new Date().toISOString() } : stage === "inscrit" ? { enrolled_at: new Date().toISOString() } : {};
-  await db().from("leads").update({ stage, ...extra }).eq("id", id);
+  try {
+    const extra = stage === "contacte" ? { contacted_at: new Date().toISOString() } : stage === "inscrit" ? { enrolled_at: new Date().toISOString() } : {};
+    await db().from("leads").update({ stage, ...extra }).eq("id", id);
+  } catch (err) {
+    console.error("moveLead failed:", err);
+  }
   revalidatePath("/leads");
 }
 
 export async function trigger(form: FormData) {
   assertAdmin();
   const kind = String(form.get("kind"));
-  await inngest.send({ name: kind === "tick" ? "loop/tick" : "system/bootstrap", data: { reason: "dashboard" } });
+  try {
+    await inngest.send({ name: kind === "tick" ? "loop/tick" : "system/bootstrap", data: { reason: "dashboard" } });
+  } catch (err) {
+    console.error("trigger inngest failed:", err);
+  }
   revalidatePath("/");
 }
 
@@ -85,7 +101,11 @@ export async function generatePostNowAction() {
     await runContentCreator(1);
   } catch (err) {
     console.error("Direct runContentCreator failed, triggering via Inngest:", err);
-    await inngest.send({ name: "loop/tick", data: { reason: "manual_click" } });
+    try {
+      await inngest.send({ name: "loop/tick", data: { reason: "manual_click" } });
+    } catch (e) {
+      console.error("Inngest fallback failed:", e);
+    }
   }
   revalidatePath("/review");
   revalidatePath("/");
